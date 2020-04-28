@@ -47,9 +47,9 @@ dotnet add package Azure.Search.Documents --version 1.0.0-preview.2
 ### Prerequisites
 
 You need an [Azure subscription][azure_sub] and a
-[Search Service][create_search_service_docs] to use this package.
+[search service][create_search_service_docs] to use this package.
 
-To create a new Search Service, you can use the [Azure Portal][create_search_service_docs],
+To create a new search service, you can use the [Azure portal][create_search_service_docs],
 [Azure PowerShell][create_search_service_ps], or the [Azure CLI][create_search_service_cli].
 Here's an example using the Azure CLI to create a free instance for getting started:
 
@@ -65,7 +65,7 @@ See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku
 All requests to a search service need an api-key that was generated specifically
 for your service. [The api-key is the sole mechanism for authenticating access to
 your search service endpoint.](https://docs.microsoft.com/azure/search/search-security-api-keys)  You can obtain your api-key from the
-[Azure Portal](https://portal.azure.com/) or via the Azure CLI:
+[Azure portal](https://portal.azure.com/) or via the Azure CLI:
 
 ```Powershell
 az search admin-key show --service-name <mysearch> --resource-group <mysearch-rg>
@@ -128,13 +128,13 @@ You can paste that into a new console app,
 
 ## Key concepts
 
-An **Azure Cognitive Search service** contains one or more **indexes** that
-provide persistent storage of searchable data in the form of JSON **documents**.
-_(If you're brand new to Search, you can make a very rough analogy between
+An Azure Cognitive Search service contains one or more *indexes* that
+provide persistent storage of searchable data in the form of JSON *search documents*.
+_(If you're brand new to search, you can make a very rough analogy between
 indexes and database tables.)_  The **Azure.Search.Documents client library**
-exposes operations on these resources through two main client types:
+exposes operations on these resources through two main client types.
 
-- `SearchIndexClient` helps with
+- `SearchIndexClient` helps with:
    - [Searching](https://docs.microsoft.com/en-us/azure/search/search-lucene-query-architecture)
      your indexed documents using
      [rich queries](https://docs.microsoft.com/azure/search/search-query-overview)
@@ -154,16 +154,16 @@ exposes operations on these resources through two main client types:
   - Most of the `SearchServiceClient` functionality is not yet available in our current preview
 
 _The `Azure.Search.Documents` client library (v1) is a brand new offering for
-.NET developers who want to use search technology in their applications.  There
+.NET developers who want to use search technology in their applications. There
 is an older, fully featured `Microsoft.Azure.Search` client library (v10) with
 many similar looking APIs, so please be careful to avoid confusion when
-exploring online resources.  A good rule of thumb is to check for the namespace
+exploring online resources. A good rule of thumb is to check for the namespace
 `using Azure.Search.Documents;` when you're looking for us._
 
 ## Examples
 
 The following examples all use a simple [Hotel data set](https://docs.microsoft.com/samples/azure-samples/azure-search-sample-data/azure-search-sample-data/)
-that you can [import into your own index from the Azure Portal.](https://docs.microsoft.com/azure/search/search-get-started-portal#step-1---start-the-import-data-wizard-and-create-a-data-source)
+that you can [import into your own index from the Azure portal](https://docs.microsoft.com/azure/search/search-get-started-portal#step-1---start-the-import-data-wizard-and-create-a-data-source).
 These are just a few of the basics - please [check out our Samples][samples] for
 much more.
 
@@ -195,7 +195,7 @@ Let's explore them with a search for a "luxury" hotel.
 #### Use `SearchDocument` like a dictionary
 
 `SearchDocument` is the default type returned from queries when you don't
-provide your own.  Here we perform the search, enumerate over the results, and
+provide your own. Here we perform the search, enumerate over the results, and
 extract data using `SearchDocument`'s dictionary indexer.
 ```C# Snippet:Azure_Search_Tests_Samples_Readme_Dict
 SearchResults<SearchDocument> response = client.Search("luxury");
@@ -271,9 +271,8 @@ SearchResults<Hotel> response = client.Search<Hotel>("luxury", options);
 ### Adding documents to your index
 
 You can `Upload`, `Merge`, `MergeOrUpload`, and `Delete` multiple documents from
-an index in a single batched request.  There are
-[a few special rules for merging](https://docs.microsoft.com/en-us/rest/api/searchservice/addupdate-or-delete-documents#document-actions)
-to be aware of.
+an index in a single batched request. There are
+[a few special rules for merging](https://docs.microsoft.com/rest/api/searchservice/addupdate-or-delete-documents#document-actions) to be aware of.
 
 ```C# Snippet:Azure_Search_Tests_Samples_Readme_Index
 IndexDocumentsBatch<Hotel> batch = IndexDocumentsBatch.Create(
@@ -284,14 +283,14 @@ IndexDocumentsOptions options = new IndexDocumentsOptions { ThrowOnAnyError = tr
 client.IndexDocuments(batch, options);
 ```
 
-The request will succeed even if any of the individual actions fails and
-return an `IndexDocumentsResult` for inspection.  There's also a `ThrowOnAnyError`
+The request will succeed even if any of the individual actions fail and
+return an `IndexDocumentsResult` for inspection. There's also a `ThrowOnAnyError`
 option if you only care about success or failure of the whole batch.
 
 ### Async APIs
 
 All of the examples so far have been using synchronous APIs, but we provide full
-support for async APIs as well.  You'll generally just add an `Async` suffix to
+support for async APIs as well. You'll generally just add an `Async` suffix to
 the name and `await` it.
 
 ```C# Snippet:Azure_Search_Tests_Samples_Readme_StaticQueryAsync
@@ -307,7 +306,7 @@ await foreach (SearchResult<Hotel> result in response.GetResultsAsync())
 
 Any Azure.Search.Documents operation that fails will throw a
 [`RequestFailedException`][RequestFailedException] with
-helpful [`Status` codes][status_codes].  Many of these errors are recoverable.
+helpful [`Status` codes][status_codes]. Many of these errors are recoverable.
 
 
 ```C# Snippet:Azure_Search_Tests_Samples_Readme_Troubleshooting
